@@ -13,7 +13,7 @@ Then open [http://localhost:5174](http://localhost:5174).
 
 ## Architecture
 
-```
+```text
 src/
 ├── routes/
 │   ├── +layout.svelte    # Root layout: Nav + Terminal + Footer
@@ -39,25 +39,27 @@ src/
 ## Key Features
 
 ### Interactive Terminal (Creative Feature)
+
 The floating `$` button (bottom-right) or the navbar "terminal" button opens a fully functional CLI:
 
-| Command | Description |
-|---|---|
-| `help` | List all commands |
-| `whoami` | Display developer info |
-| `ls` | List portfolio sections |
-| `cd <section>` | Navigate to a section |
-| `projects` | List all projects |
-| `open <id>` | View project details |
-| `skills` | Jump to skills section |
-| `contact` | Show contact info |
-| `theme dark\|light` | Switch theme |
-| `git log` | Easter egg 🥚 |
-| `sudo` | Another easter egg |
+| Command             | Description             |
+| ------------------- | ----------------------- |
+| `help`              | List all commands       |
+| `whoami`            | Display developer info  |
+| `ls`                | List portfolio sections |
+| `cd <section>`      | Navigate to a section   |
+| `projects`          | List all projects       |
+| `open <id>`         | View project details    |
+| `skills`            | Jump to skills section  |
+| `contact`           | Show contact info       |
+| `theme dark\|light` | Switch theme            |
+| `git log`           | Easter egg 🥚           |
+| `sudo`              | Another easter egg      |
 
 Supports: **↑↓ command history**, **Tab completion**, **Escape to close**.
 
 ### Animation Decisions
+
 - **Hero entrance**: CSS `@keyframes` with staggered `animation-delay` — zero JS overhead on first paint
 - **Particle system**: Canvas API (`requestAnimationFrame`) with 80 particles and proximity-based connecting lines
 - **Typewriter**: Custom interval-based typing loop (no lib dependency)
@@ -65,6 +67,7 @@ Supports: **↑↓ command history**, **Tab completion**, **Escape to close**.
 - **Section reveals**: `IntersectionObserver` + CSS `opacity/transform` transitions for scroll-triggered entrance
 
 ### Performance Optimizations
+
 - No heavy animation library (GSAP optional, not imported in final build)
 - `requestAnimationFrame` for particle loop with cleanup on unmount
 - `passive: true` on scroll listeners
@@ -73,6 +76,7 @@ Supports: **↑↓ command history**, **Tab completion**, **Escape to close**.
 - Route-level code splitting via SvelteKit's adapter
 
 ### Accessibility
+
 - **Skip link**: "Skip to main content" visible on focus
 - **Semantic HTML**: `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`
 - **ARIA**: `role="dialog"`, `aria-modal`, `aria-live`, `aria-expanded`, `aria-label`, `aria-invalid`
@@ -82,18 +86,19 @@ Supports: **↑↓ command history**, **Tab completion**, **Escape to close**.
 - **Screen reader**: `aria-live="polite"` on typewriter text and terminal output
 
 ### Theming
+
 - Persisted to `localStorage` and applied via `class="dark"` on `<html>`
 - CSS custom properties (`--accent`, `--surface`, etc.) for instant zero-flash switching
 - System preference detection on first load via `prefers-color-scheme`
 
 ## Trade-offs
 
-| Decision | Rationale |
-|---|---|
-| Single-page vs multi-route | Smoother scroll UX; avoids page-load flicker between sections |
-| Canvas particles vs CSS | Canvas gives more control over density/connections; acceptable perf on modern hardware |
-| No GSAP import | Keeps bundle lean; native CSS transitions cover 95% of needs |
-| Formspree placeholder | Avoids exposing secrets in public repo; drop-in replacement for real endpoint |
+| Decision                   | Rationale                                                                              |
+| -------------------------- | -------------------------------------------------------------------------------------- |
+| Single-page vs multi-route | Smoother scroll UX; avoids page-load flicker between sections                          |
+| Canvas particles vs CSS    | Canvas gives more control over density/connections; acceptable perf on modern hardware |
+| No GSAP import             | Keeps bundle lean; native CSS transitions cover 95% of needs                           |
+| Formspree placeholder      | Avoids exposing secrets in public repo; drop-in replacement for real endpoint          |
 
 ## Deployment
 
@@ -104,6 +109,7 @@ pnpm build
 Deploy the `.svelte-kit/output` directory to **Vercel**, **Netlify**, or **Cloudflare Pages** — `@sveltejs/adapter-auto` detects the platform automatically.
 
 For Vercel:
+
 ```bash
 vercel --prod
 ```
