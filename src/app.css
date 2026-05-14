@@ -1,0 +1,184 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	--accent: #00ff88;
+	--accent-dim: rgba(0, 255, 136, 0.15);
+	--highlight: #a855f7;
+	--surface: #08080f;
+	--surface-card: #0e0e1a;
+	--surface-elevated: #141420;
+	--surface-border: #1e1e2e;
+	--text-primary: #e2e8f0;
+	--text-secondary: #94a3b8;
+	--text-muted: #475569;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background-color: var(--surface);
+	color: var(--text-primary);
+	font-family: 'Inter', system-ui, sans-serif;
+	overflow-x: hidden;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+	background: rgba(0, 255, 136, 0.25);
+	color: #e2e8f0;
+}
+
+::-webkit-scrollbar {
+	width: 5px;
+}
+::-webkit-scrollbar-track {
+	background: var(--surface);
+}
+::-webkit-scrollbar-thumb {
+	background: var(--surface-border);
+	border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: var(--accent);
+	opacity: 0.6;
+}
+
+/* Focus styles */
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 3px;
+	border-radius: 4px;
+}
+
+/* Smooth section reveals via IntersectionObserver */
+.reveal {
+	opacity: 0;
+	transform: translateY(28px);
+	transition:
+		opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+		transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+.reveal.delay-100 { transition-delay: 0.1s; }
+.reveal.delay-200 { transition-delay: 0.2s; }
+.reveal.delay-300 { transition-delay: 0.3s; }
+.reveal.delay-400 { transition-delay: 0.4s; }
+.reveal.delay-500 { transition-delay: 0.5s; }
+
+/* Grid background */
+.grid-bg {
+	background-image: var(--tw-gradient-stops, none),
+		linear-gradient(rgba(0, 255, 136, 0.035) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(0, 255, 136, 0.035) 1px, transparent 1px);
+	background-size: auto, 50px 50px, 50px 50px;
+}
+
+/* Glow helpers */
+.glow-accent {
+	box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+}
+.glow-accent-lg {
+	box-shadow: 0 0 40px rgba(0, 255, 136, 0.4);
+}
+.glow-highlight {
+	box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+}
+.text-glow {
+	text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+}
+
+/* Light mode overrides */
+html.light {
+	--surface: #f8fafc;
+	--surface-card: #ffffff;
+	--surface-elevated: #f1f5f9;
+	--surface-border: #e2e8f0;
+	--text-primary: #0f172a;
+	--text-secondary: #475569;
+	--text-muted: #94a3b8;
+}
+
+html.light body {
+	background-color: var(--surface);
+	color: var(--text-primary);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		transition-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+	}
+	.reveal {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/* Terminal scrollbar */
+.terminal-scroll::-webkit-scrollbar {
+	width: 4px;
+}
+.terminal-scroll::-webkit-scrollbar-track {
+	background: transparent;
+}
+.terminal-scroll::-webkit-scrollbar-thumb {
+	background: #1e1e2e;
+	border-radius: 2px;
+}
+
+/* Glitch effect */
+@keyframes glitch-1 {
+	0%, 100% { clip-path: inset(0 0 95% 0); transform: translate(-2px, 0); }
+	20% { clip-path: inset(30% 0 50% 0); transform: translate(2px, 0); }
+	40% { clip-path: inset(70% 0 10% 0); transform: translate(-1px, 0); }
+	60% { clip-path: inset(10% 0 80% 0); transform: translate(1px, 0); }
+	80% { clip-path: inset(50% 0 30% 0); transform: translate(-2px, 0); }
+}
+@keyframes glitch-2 {
+	0%, 100% { clip-path: inset(80% 0 0 0); transform: translate(2px, 0); color: #a855f7; }
+	20% { clip-path: inset(10% 0 60% 0); transform: translate(-2px, 0); }
+	40% { clip-path: inset(60% 0 20% 0); transform: translate(1px, 0); color: #00ff88; }
+	60% { clip-path: inset(20% 0 70% 0); transform: translate(-1px, 0); }
+	80% { clip-path: inset(40% 0 40% 0); transform: translate(2px, 0); }
+}
+
+.glitch {
+	position: relative;
+}
+.glitch::before,
+.glitch::after {
+	content: attr(data-text);
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	pointer-events: none;
+}
+.glitch:hover::before {
+	opacity: 0.8;
+	animation: glitch-1 0.4s linear infinite;
+	color: #00ff88;
+}
+.glitch:hover::after {
+	opacity: 0.6;
+	animation: glitch-2 0.4s linear infinite reverse;
+	color: #a855f7;
+}
